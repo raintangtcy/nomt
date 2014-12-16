@@ -22,4 +22,14 @@ public class AgentConfig extends AbstractConfigUtil
         return agentConfigFile;
     }
 
+    /**
+     * @description
+     * @return
+     * @author Rain Tang
+     */
+    public boolean isSnmpAgentEnable()
+    {
+        return getBoolean("snmp.agent.enble");
+    }
+
 }
