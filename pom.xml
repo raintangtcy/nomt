@@ -18,5 +18,6 @@
     <module>nomt-base</module>
     <module>nomt-agent</module>
     <module>nomt-master</module>
+    <module>nomt-snmp</module>
   </modules>
 </project>
