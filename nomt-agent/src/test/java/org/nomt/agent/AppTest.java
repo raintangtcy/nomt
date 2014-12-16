@@ -1,16 +1,14 @@
 package org.nomt.agent;
 
-import static org.junit.Assert.*;
-
-import org.junit.Test;
+import org.nomt.agent.conf.AgentConfig;
 
 public class AppTest
 {
-
-    @Test
-    public void test()
+    public static void main(String[] args)
     {
-        fail("Not yet implemented");
+        AgentConfig config = AgentConfig.getInstance();
+        System.out.println(config.getCpuCoreNumber());
+
     }
 
 }

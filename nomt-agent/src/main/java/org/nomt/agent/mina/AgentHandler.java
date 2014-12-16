@@ -20,48 +20,32 @@
  */
 
 /**
- * NomtClient.java
+ * AgentHandler.java
  *
  * @author Rain Tang
- *         Dec 16, 2014 5:35:24 PM
+ *         Dec 16, 2014 9:44:35 PM
  * @description
  */
 package org.nomt.agent.mina;
 
-import org.apache.mina.transport.socket.SocketAcceptor;
-import org.nomt.agent.conf.AgentConfig;
-import org.nomt.base.network.NetworkEndIf;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.mina.core.service.IoHandlerAdapter;
 
 /**
  * @author Rain Tang
  *
  */
-public class NomtClient implements NetworkEndIf
+public class AgentHandler extends IoHandlerAdapter
 {
-    private final Logger logger = LoggerFactory.getLogger(NomtClient.class);
+    private final static AgentHandler instance = new AgentHandler();
 
-    private SocketAcceptor socketAcceptor;
-
-    private AgentConfig config = AgentConfig.getInstance();
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.nomt.base.network.NetworkEndIf#start()
-     */
-    @Override
-    public boolean start()
+    private AgentHandler()
     {
 
-        return false;
     }
 
-    @Override
-    public boolean stop()
+    public static AgentHandler getInstance()
     {
-        return false;
+        return instance;
     }
 
 }

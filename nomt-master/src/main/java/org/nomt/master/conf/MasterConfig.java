@@ -1,13 +1,13 @@
-package org.nomt.agent.conf;
+package org.nomt.master.conf;
 
 import org.apache.commons.lang.SystemUtils;
 import org.nomt.base.conf.AbstractConfigUtil;
 
-public class AgentConfig extends AbstractConfigUtil
+public class MasterConfig extends AbstractConfigUtil
 {
-    private static final AgentConfig instance = new AgentConfig();
+    private static final MasterConfig instance = new MasterConfig();
 
-    private AgentConfig()
+    private MasterConfig()
     {
     }
 
@@ -17,11 +17,11 @@ public class AgentConfig extends AbstractConfigUtil
         String agentConfigFile;
         if (SystemUtils.IS_OS_WINDOWS)
         {
-            agentConfigFile = "C:/home/nomt/config/nomtAgent.properties";
+            agentConfigFile = "C:/home/nomt/config/nomtMaster.properties";
         }
         else
         {
-            agentConfigFile = "/home/nomt/config/nomtAgent.properties";
+            agentConfigFile = "/home/nomt/config/nomtMaster.properties";
         }
 
         return agentConfigFile;
@@ -47,7 +47,7 @@ public class AgentConfig extends AbstractConfigUtil
         return getIntValue("mina.cpu.core.number");
     }
 
-    public static AgentConfig getInstance()
+    public static MasterConfig getInstance()
     {
         return instance;
     }
@@ -80,6 +80,16 @@ public class AgentConfig extends AbstractConfigUtil
     public int getMinaServerPort()
     {
         return getIntValue("mina.client.port");
+    }
+
+    /**
+     * @description mina服务器启动失败后，重启等待时间
+     * @return
+     * @author Rain Tang
+     */
+    public long getRestartInterval()
+    {
+        return getLongValue("mina.restart.interval");
     }
 
 }

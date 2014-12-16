@@ -1,0 +1,186 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+<!-- 
+	<bean id="dirChecker" class="com.ericsson.cdr.task.DirChecker" />
+	
+	<bean name="ftpManager" class="org.springframework.scheduling.quartz.JobDetailBean">
+        <property name="jobClass" value="com.ericsson.cdr.task.FTPManager" />
+    </bean>
+    
+    <bean name="moveFtpWorkManager" class="org.springframework.scheduling.quartz.JobDetailBean">
+        <property name="jobClass" value="com.ericsson.cdr.task.MoveFtpWorkManager" />
+    </bean>
+    
+    <bean name="convertManager" class="org.springframework.scheduling.quartz.JobDetailBean">
+        <property name="jobClass" value="com.ericsson.cdr.task.ConvertManager" />
+    </bean>
+    
+    <bean name="moveTempGGSNManager" class="org.springframework.scheduling.quartz.JobDetailBean">
+        <property name="jobClass" value="com.ericsson.cdr.task.MoveTempGGSNManager" />
+    </bean>
+    
+     <bean name="deleteGGSNBackupManager" class="org.springframework.scheduling.quartz.JobDetailBean">
+        <property name="jobClass" value="com.ericsson.cdr.task.DeleteGGSNBackupManager" />
+    </bean>
+    
+     <bean name="zipOriginalManager" class="org.springframework.scheduling.quartz.JobDetailBean">
+        <property name="jobClass" value="com.ericsson.cdr.task.ZipOriginalManager" />
+    </bean>
+    
+     <bean name="deleteConversionManager" class="org.springframework.scheduling.quartz.JobDetailBean">
+        <property name="jobClass" value="com.ericsson.cdr.task.DeleteConversionManager" />
+    </bean>
+    
+     <bean name="processDelayCheckManager" class="org.springframework.scheduling.quartz.JobDetailBean">
+        <property name="jobClass" value="com.ericsson.cdr.task.ProcessDelayCheckManager" />
+    </bean>
+    
+     -->
+     
+     <bean name="reUploadCdrBackFileManager" class="org.springframework.scheduling.quartz.JobDetailBean">
+        <property name="jobClass" value="com.ericsson.dpi.logserver.task.ReUploadCdrBackFileManager" />
+    </bean>
+    
+    <bean name="cleanUPCdrBackFileManager" class="org.springframework.scheduling.quartz.JobDetailBean">
+        <property name="jobClass" value="com.ericsson.dpi.logserver.task.CleanUPCdrBackFileManager" />
+    </bean>
+    
+    <bean name="uploadCdrFileNameListManager" class="org.springframework.scheduling.quartz.JobDetailBean">
+        <property name="jobClass" value="com.ericsson.dpi.logserver.task.UploadCdrFileNameListManager" />
+    </bean>
+    
+     <bean name="cleanUPCdrTmpFileManager" class="org.springframework.scheduling.quartz.JobDetailBean">
+        <property name="jobClass" value="com.ericsson.dpi.logserver.task.CleanUPCdrTmpFileManager" />
+    </bean>
+    
+    <bean name="scanHadoopFailedFileManager" class="org.springframework.scheduling.quartz.JobDetailBean">
+        <property name="jobClass" value="com.ericsson.dpi.logserver.task.ScanHadoopFailedFileManager" />
+    </bean>
+    
+    <bean name="scanHadoopFailedFilePathForAlarmManager" class="org.springframework.scheduling.quartz.JobDetailBean">
+        <property name="jobClass" value="com.ericsson.dpi.logserver.task.ScanHadoopFailedFilePathForAlarmManager" />
+    </bean>
+    
+    
+    <bean id="cronTriggerReUploadCdrBackFileManager" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail" ref="reUploadCdrBackFileManager"/>
+        <property name="cronExpression" value="0 1 1 * * ?" />
+    </bean>
+    <bean id="cronTriggerCleanUpCdrBackFileManager" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail" ref="cleanUPCdrBackFileManager"/>
+        <property name="cronExpression" value="0 1 2 * * ?" />
+    </bean>
+    <bean id="cronTriggerUploadCdrFileNameListManager" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail" ref="uploadCdrFileNameListManager"/>
+        <property name="cronExpression" value="0 0 3 * * ?" />
+    </bean>
+     <bean id="cronTriggerCleanUPCdrTmpFileManager" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail" ref="cleanUPCdrTmpFileManager"/>
+        <property name="cronExpression" value="0 0 4 * * ?" />
+    </bean>
+    <bean id="cronScanHadoopFailedFileManager" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail" ref="scanHadoopFailedFileManager"/>
+        <property name="cronExpression" value="0 0 5 * * ?" />
+    </bean>
+    
+    <bean id="cronScanHadoopFailedFilePathForAlarmManager" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail" ref="scanHadoopFailedFilePathForAlarmManager"/>
+        <property name="cronExpression" value="0 10 5 * * ?" />
+    </bean>
+        <!-- Cron Trigger, run every 1 minute -->
+        <!--  
+    <bean id="cronTriggerFtpManager" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail" ref="ftpManager" />
+        <property name="cronExpression" value="0 0/1 * * * ?" />
+    </bean>
+    
+    <bean id="cronProcessDelayCheckManager" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail" ref="processDelayCheckManager" />
+        <property name="cronExpression" value="0 0/1 * * * ?" />
+    </bean>
+    -->
+        <!-- 4:00AM zip original CDR, don't change this -->
+        <!-- 
+    <bean id="cronTriggerZipOriginalManager" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail" ref="zipOriginalManager" />
+        <property name="cronExpression" value="0 0 4 * * ?" />
+    </bean>
+     -->
+    <!-- delete conversion backup -->
+    <!-- 
+    <bean id="cronTriggerDeleteConversionManager" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail" ref="deleteConversionManager" />
+        <property name="cronExpression" value="0 0 4 * * ?" />
+    </bean>
+    
+    <bean id="cronTriggerConvertManager" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail" ref="convertManager" />
+        <property name="cronExpression" value="0/10 * * * * ?" />
+    </bean>
+    
+    <bean id="cronTriggerMoveFtpWorkManager" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail" ref="moveFtpWorkManager" />
+        <property name="cronExpression" value="0/10 * * * * ?" />
+    </bean>
+    
+    <bean id="cronTriggerMoveTempGGSNManager" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail" ref="moveTempGGSNManager" />
+        <property name="cronExpression" value="0/10 * * * * ?" />
+    </bean>
+     -->
+    <!-- delete original cdr backup zip -->
+    <!-- 
+    <bean id="cronTriggerDeleteGGSNBackupManager" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail" ref="deleteGGSNBackupManager"/>
+        <property name="cronExpression" value="0 0 4 * * ?" />
+    </bean>
+    
+     -->
+    
+    <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="jobDetails">
+            <list>
+            <ref bean="reUploadCdrBackFileManager" />
+            <ref bean="cleanUPCdrBackFileManager" />
+            <ref bean="uploadCdrFileNameListManager" />
+            <ref bean="cleanUPCdrTmpFileManager" />
+            <ref bean="scanHadoopFailedFileManager" />
+            <ref bean="scanHadoopFailedFilePathForAlarmManager" />
+            <!-- 
+                <ref bean="ftpManager" />
+                <ref bean="convertManager" />
+                <ref bean="moveFtpWorkManager" />
+                <ref bean="moveTempGGSNManager" />
+                <ref bean="deleteGGSNBackupManager" />
+                <ref bean="zipOriginalManager" />
+                <ref bean="processDelayCheckManager" />
+                 -->
+                <!-- ref bean="deleteConversionManager" /-->
+            </list>
+        </property>
+
+        <property name="triggers">
+            <list>
+                <ref bean="cronTriggerReUploadCdrBackFileManager" />
+                <ref bean="cronTriggerCleanUpCdrBackFileManager" />
+                <ref bean="cronTriggerUploadCdrFileNameListManager" />
+                <ref bean="cronTriggerCleanUPCdrTmpFileManager" />
+                <ref bean="cronScanHadoopFailedFileManager" />
+                <ref bean="cronScanHadoopFailedFilePathForAlarmManager" />
+                <!-- 
+                <ref bean="cronTriggerConvertManager" />
+                <ref bean="cronTriggerMoveFtpWorkManager" />
+                <ref bean="cronTriggerMoveTempGGSNManager" />
+                <ref bean="cronTriggerDeleteGGSNBackupManager" />
+                <ref bean="cronTriggerZipOriginalManager" />
+                <ref bean="cronProcessDelayCheckManager" />
+                 -->
+                <!-- ref bean="cronTriggerDeleteConversionManager" / -->
+            </list>
+        </property>
+    </bean>
+
+</beans>

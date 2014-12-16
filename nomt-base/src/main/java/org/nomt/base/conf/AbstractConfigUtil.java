@@ -9,47 +9,37 @@ import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Logger;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.configuration.reloading.FileChangedReloadingStrategy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * @author : echutag
- * @Description : configuration utils of app.properties
+ * @author Rain Tang
+ *
  */
 public abstract class AbstractConfigUtil
 {
     /**
-     * echutag
-     *
+     * @author Rain Tang
      * @description
      */
     private static final String TRUE_STR = "true";
 
     /**
-     * echutag
-     *
+     * @author Rain Tang
      * @description
      */
     private String propertiesFile = "";
 
     /**
-     * echutag
-     *
-     * @description logger instance
+     * @author Rain Tang
+     * @description
      */
-    private static Logger logger = Logger.getLogger(AbstractConfigUtil.class
-            .getName());
-
-    // /**
-    // * CONFIG_FILEPATH
-    // *
-    // * @Description :path of app.properties
-    // */
-    // private static String CONFIG_FILEPATH = ClassLoader.getSystemResource(
-    // "" + PROPERTIES_FILE_NAME).getPath();
+    private static Logger logger = LoggerFactory
+            .getLogger(AbstractConfigUtil.class);
 
     /**
      * properties
@@ -66,8 +56,9 @@ public abstract class AbstractConfigUtil
     }
 
     /**
-     * @Description : initialize the properties instance
-     * @Return: void
+     * @description 加载properties文件，文件改动动态生效
+     * @return true:加载成功
+     * @author Rain Tang
      */
     private boolean initializeConfig()
     {
@@ -84,21 +75,25 @@ public abstract class AbstractConfigUtil
         }
         catch (UnsupportedEncodingException e)
         {
-            e.printStackTrace();
+            logger.error(
+                    "UnsupportedEncodingException in AbstractConfigUtil.initializeConfig()",
+                    e);
         }
         catch (ConfigurationException e)
         {
-            e.printStackTrace();
+            logger.error(
+                    "ConfigurationException in AbstractConfigUtil.initializeConfig()",
+                    e);
         }
         isSucess = properties != null;
         return isSucess;
     }
 
     /**
-     * @Author : echutag
-     * @Description : get integer value from configuration file
+     * @description 返回整数
      * @param xpath
      * @return
+     * @author Rain Tang
      */
     public int getIntValue(String xpath)
     {
@@ -110,14 +105,36 @@ public abstract class AbstractConfigUtil
         catch (final NumberFormatException e)
         {
             isSucess = false;
-            logger.fine("!!!Not integer value for : " + xpath
+            logger.error("!!!Not integer value for : " + xpath
                     + ". Return default integer value 0.");
         }
         return result;
     }
 
     /**
-     * @Description : get string value from configuration file
+     * @description 返回long
+     * @param xpath
+     * @return
+     * @author Rain Tang
+     */
+    public long getLongValue(String xpath)
+    {
+        long result = 0;
+        try
+        {
+            result = Long.parseLong(getStrValue(xpath));
+        }
+        catch (final NumberFormatException e)
+        {
+            isSucess = false;
+            logger.error("!!!Not Long value for : " + xpath
+                    + ". Return default long value 0.");
+        }
+        return result;
+    }
+
+    /**
+     * @Description : 返回String类型的值
      * @param xpath
      * @return
      * @Return: String
@@ -126,7 +143,7 @@ public abstract class AbstractConfigUtil
     {
         if (!isSucess)
         {
-            logger.fine("Properties not initialized yet, start to initialize.");
+            logger.info("Properties not initialized yet, start to initialize.");
             initializeConfig();
         }
 
@@ -134,22 +151,21 @@ public abstract class AbstractConfigUtil
         if (value == null)
         {
             isSucess = false;
-            logger.fine("!!!NULL configuration for : " + xpath);
+            logger.info("!!!NULL configuration for : " + xpath);
         }
         else
         {
-            logger.fine("Configuration: key: " + xpath + " / value: " + value);
+            logger.debug("Configuration: key: " + xpath + " / value: " + value);
         }
         return value;
     }
 
     /**
-     * @description get a String list from a String seperated by the certain sep
-     *              flag
+     * @description 返回String的列表
      * @param xpath
      * @param sep
      * @return
-     * @author echutag
+     * @author Rain Tang
      */
     public List<String> getStringList(String xpath, String sep)
     {
@@ -159,12 +175,11 @@ public abstract class AbstractConfigUtil
     }
 
     /**
-     * @description get a String list from a String seperated by the certain sep
-     *              flag
+     * @description 返回整数列表
      * @param xpath
      * @param sep
      * @return
-     * @author echutag
+     * @author Rain Tang
      */
     public List<Integer> getIntList(String xpath, String sep)
     {
@@ -177,6 +192,12 @@ public abstract class AbstractConfigUtil
         return intList;
     }
 
+    /**
+     * @description 返回boolean值
+     * @param xpath
+     * @return
+     * @author Rain Tang
+     */
     public boolean getBoolean(String xpath)
     {
         String boolString = getStrValue(xpath);
@@ -189,15 +210,20 @@ public abstract class AbstractConfigUtil
     }
 
     /**
-     * @Author : echutag
-     * @Description : return the initialization result
+     * @description 判断properties文件是否加载成功
      * @return
+     * @author Rain Tang
      */
     public boolean isSucess()
     {
         return isSucess;
     }
 
+    /**
+     * @description 由子类指定具体的properties文件的路径
+     * @return
+     * @author Rain Tang
+     */
     public abstract String getPropertiesFilePath();
 
 }
