@@ -79,7 +79,7 @@ public class AgentConfig extends AbstractConfigUtil
      */
     public int getMinaServerPort()
     {
-        return getIntValue("mina.client.port");
+        return getIntValue("mina.server.port");
     }
 
 }

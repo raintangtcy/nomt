@@ -1,0 +1,57 @@
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	
+	<!--Application configuration-->
+	<bean id="nomtMasterConfig" class="org.nomt.master.conf.MasterConfig"/>
+	
+	<!--mina server configuation-->
+	<!-- The IoHandler implementation -->
+	<bean id="nomtMasterHandler" class="org.nomt.master.mina.handler.MasterHandler" />
+	<bean id="timeHandler" class="org.nomt.master.mina.handler.TimeHandler" />
+	
+	<bean id="nomtMasterFilter" class="org.apache.mina.filter.codec.ProtocolCodecFilter">
+		<constructor-arg>
+			<bean class="org.apache.mina.filter.codec.textline.TextLineCodecFactory" />
+			<!--			<bean class="org.nomt.master.mina.filter.NomtCodecFactory" />-->
+		</constructor-arg>
+	</bean>
+	
+	<bean id="loggingFilter" class="org.apache.mina.filter.logging.LoggingFilter" />
+	<bean id="executor" class="org.apache.mina.filter.executor.ExecutorFilter">
+		<constructor-arg>
+			<bean class="org.apache.mina.filter.executor.UnorderedThreadPoolExecutor" >
+				<constructor-arg type="int" value="50"/>
+			</bean>
+		</constructor-arg>
+	</bean>
+	
+	<!-- The filter chain. -->
+	<bean id="filterChainBuilder" class="org.apache.mina.core.filterchain.DefaultIoFilterChainBuilder">
+		<property name="filters">
+			<map>
+				<entry key="loggingFilter" value-ref="loggingFilter" />
+				<entry key="codecFilter" value-ref="nomtMasterFilter" />
+				<entry key="executors" value-ref="executor" />
+			</map>
+		</property>
+	</bean>
+	
+	<bean class="org.springframework.beans.factory.config.CustomEditorConfigurer">
+		<property name="customEditors">
+			<map>
+				<entry key="java.net.SocketAddress" value="org.apache.mina.integration.beans.InetSocketAddressEditor"/>
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="socketAcceptor" class="org.apache.mina.transport.socket.nio.NioSocketAcceptor"
+		init-method="bind" destroy-method="unbind">
+		<property name="defaultLocalAddress" value=":6001" />
+		<property name="handler" ref="timeHandler" />
+		<property name="filterChainBuilder" ref="filterChainBuilder" />
+		<property name="reuseAddress" value="true" />
+	</bean>
+	
+</beans>

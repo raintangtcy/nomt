@@ -151,11 +151,11 @@ public abstract class AbstractConfigUtil
         if (value == null)
         {
             isSucess = false;
-            logger.info("!!!NULL configuration for : " + xpath);
+            logger.info("Configuration:<{}, NULL>", xpath);
         }
         else
         {
-            logger.debug("Configuration: key: " + xpath + " / value: " + value);
+            logger.debug("Configuration:<{}, {}>", xpath, value);
         }
         return value;
     }

@@ -40,8 +40,8 @@ import org.apache.mina.transport.socket.SocketSessionConfig;
 import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
 import org.nomt.base.network.NetworkEndIf;
 import org.nomt.master.conf.MasterConfig;
-import org.nomt.master.mina.filter.DpiLogCodecFactory;
-import org.nomt.master.mina.handler.MasterHandler;
+import org.nomt.master.mina.filter.NomtCodecFactory;
+import org.nomt.master.mina.handler.TimeHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,6 +57,12 @@ public class NetworkServer implements NetworkEndIf
 
     private MasterConfig config = MasterConfig.getInstance();
 
+    private final static NetworkServer instance = new NetworkServer();
+
+    private NetworkServer()
+    {
+    }
+
     /*
      * (non-Javadoc)
      *
@@ -66,21 +72,29 @@ public class NetworkServer implements NetworkEndIf
     public boolean start()
     {
         logger.trace("Prepare to start server.");
+
         stop();
 
         socketAcceptor = new NioSocketAcceptor(config.getCpuCoreNumber());
 
-        final DefaultIoFilterChainBuilder filterChain = socketAcceptor
-                .getFilterChain();
+        // 配置sessionconfig
         final SocketSessionConfig sessionConfig = socketAcceptor
                 .getSessionConfig();
         sessionConfig.setReadBufferSize(config.getMinaReadBufferSize());
         sessionConfig.setReceiveBufferSize(config.getMinaReceiveBufferSize());
+
+        // 初始化chainfilter
+        final DefaultIoFilterChainBuilder filterChain = socketAcceptor
+                .getFilterChain();
         filterChain.addLast("codec", new ProtocolCodecFilter(
-                new DpiLogCodecFactory()));
-        filterChain.addLast("Executors", new ExecutorFilter(
-                new UnorderedThreadPoolExecutor(50)));
-        socketAcceptor.setHandler(MasterHandler.getInstance());
+                new NomtCodecFactory()));
+        filterChain.addLast(
+                "executors",
+                new ExecutorFilter(new UnorderedThreadPoolExecutor(config
+                        .getMinaThreadPoolSize())));
+
+        // 设置handler
+        socketAcceptor.setHandler(new TimeHandler());
 
         final int port = config.getMinaServerPort();
         try
@@ -92,7 +106,6 @@ public class NetworkServer implements NetworkEndIf
         }
         catch (final IOException ex)
         {
-
             try
             {
                 logger.error("port bind failed ,try to bind 2 times");
@@ -145,6 +158,11 @@ public class NetworkServer implements NetworkEndIf
         }
 
         return false;
+    }
+
+    public static NetworkServer getInstance()
+    {
+        return instance;
     }
 
 }

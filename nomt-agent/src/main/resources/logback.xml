@@ -1,49 +1,39 @@
 <?xml version="1.0"?>
 <configuration>
-    <property file="/home/nomt/config/app.properties"/>
-    <!--property file="src\main\resources\app.properties" /-->
-    <appender name="FILE"  class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <Encoding>UTF-8</Encoding>
-        <File>${path.log}/cdr-mediation.log</File>
-        <Prudent>true</Prudent>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>${path.log}/cdr-mediation-%d{yyyy-MM-dd_HH}-%i.log</FileNamePattern>
-            <MaxHistory>5</MaxHistory>
-            <TimeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <MaxFileSize>5MB</MaxFileSize>
-            </TimeBasedFileNamingAndTriggeringPolicy>
-        </rollingPolicy>
-        <layout class="ch.qos.logback.classic.PatternLayout">
-            <Pattern>
-                %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
-            </Pattern>
-        </layout>
-    </appender>
-    <appender name="warningLoggerAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <Encoding>UTF-8</Encoding>
-        <File>${path.alarm}/ggsn04-warning.txt</File>
-        <Prudent>true</Prudent>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>${path.alarm}/ggsn04-WARNING-%d{yyyyMMddHHmmss}.txt</FileNamePattern>
-            <MaxHistory>3</MaxHistory>
-            <TimeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <MaxFileSize>5MB</MaxFileSize>
-            </TimeBasedFileNamingAndTriggeringPolicy>
-        </rollingPolicy>
-        <layout class="ch.qos.logback.classic.PatternLayout">
-            <!-- Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</Pattern-->
-            <Pattern>%msg%n</Pattern>
-        </layout>
-    </appender>
-    <logger name="com.ericsson">
-        <level value="DEBUG" />
-        <!-- "TRACE", "DEBUG" -->
-        <appender-ref ref="FILE" />
-    </logger>
-    <logger name="warningLogger">
-        <level value="TRACE" />
-        <!-- "TRACE", "DEBUG" -->
-        <appender-ref ref="warningLoggerAppender" />
-    </logger>
+	<!-- property file="/home/nomt/config/nomtMaster.properties"/> -->
+	<property file="src/main/resources/nomtAgent.properties" />
+	<!--	<appender name="FILE"-->
+	<!--		class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+	<!--		<Encoding>UTF-8</Encoding>-->
+	<!--		<File>${path.log}/${app.name}.log</File>-->
+	<!--		<Prudent>true</Prudent>-->
+	<!-- <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">-->
+	<!--			<FileNamePattern>${path.log}/${app.name}-%d{yyyy-MM-dd_HH}-%i.log-->
+	<!--			</FileNamePattern>-->
+	<!--			<MaxHistory>5</MaxHistory>-->
+	<!--			<TimeBasedFileNamingAndTriggeringPolicy-->
+	<!--				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">-->
+	<!--				<MaxFileSize>5MB</MaxFileSize>-->
+	<!--			</TimeBasedFileNamingAndTriggeringPolicy>-->
+	<!--		</rollingPolicy>-->
+	<!--		<layout class="ch.qos.logback.classic.PatternLayout">-->
+	<!--			<Pattern>-->
+	<!--				%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - -->
+	<!--				%msg%n-->
+	<!--			</Pattern>-->
+	<!--		</layout>-->
+	<!--	</appender>-->
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<Encoding>UTF-8</Encoding>
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</Pattern>
+		</layout>
+	</appender>
+	<logger name="org.nomt">
+		<level value="${log.level.std}" />
+		<appender-ref ref="STDOUT" />
+	</logger>
+	<!-- <logger name="org.nomt"> <level value="${log.level.file}" /> <appender-ref ref="FILE"
+		/> </logger> -->
 </configuration> 
 

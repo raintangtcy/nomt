@@ -92,4 +92,9 @@ public class MasterConfig extends AbstractConfigUtil
         return getLongValue("mina.restart.interval");
     }
 
+    public int getMinaThreadPoolSize()
+    {
+        return getIntValue("mina.thread.pool.size");
+    }
+
 }

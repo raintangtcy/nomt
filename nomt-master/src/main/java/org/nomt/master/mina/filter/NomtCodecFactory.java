@@ -5,16 +5,16 @@ import org.apache.mina.filter.codec.ProtocolCodecFactory;
 import org.apache.mina.filter.codec.ProtocolDecoder;
 import org.apache.mina.filter.codec.ProtocolEncoder;
 
-public class DpiLogCodecFactory implements ProtocolCodecFactory
+public class NomtCodecFactory implements ProtocolCodecFactory
 {
-    private final DpiLogEncoder encoder;
+    private final NomtEncoder encoder;
 
-    private final DpiLogDecoder decoder;
+    private final NomtDecoder decoder;
 
-    public DpiLogCodecFactory()
+    public NomtCodecFactory()
     {
-        encoder = new DpiLogEncoder();
-        decoder = new DpiLogDecoder();
+        encoder = new NomtEncoder();
+        decoder = new NomtDecoder();
     }
 
     /*

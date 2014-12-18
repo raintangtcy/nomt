@@ -1,0 +1,12 @@
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	<import resource="nomtMaster-mina-context.xml"/>
+	
+	<!--	<import resource="nomtMaster-db-context.xml"/>-->
+	<!--	<import resource="nomtMaster-cron-context.xml"/>-->
+	<!--Application configuration-->
+	<bean id="nomtMasterConfig" class="org.nomt.master.conf.MasterConfig"/>
+	
+</beans>
