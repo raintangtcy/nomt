@@ -28,7 +28,7 @@
  */
 package org.nomt.master.main;
 
-import org.nomt.master.mina.NetworkServer;
+import org.nomt.master.tcp.NetworkServer;
 
 /**
  * @author Rain Tang

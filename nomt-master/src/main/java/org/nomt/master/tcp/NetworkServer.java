@@ -26,7 +26,7 @@
  *         Dec 16, 2014 8:13:00 PM
  * @description
  */
-package org.nomt.master.mina;
+package org.nomt.master.tcp;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
