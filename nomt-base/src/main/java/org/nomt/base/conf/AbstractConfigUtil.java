@@ -151,11 +151,11 @@ public abstract class AbstractConfigUtil
         if (value == null)
         {
             isSucess = false;
-            logger.info("Configuration:<{}, NULL>", xpath);
+            logger.info("!!!Configuration:<{}, NULL>", xpath);
         }
         else
         {
-            logger.debug("Configuration:<{}, {}>", xpath, value);
+            logger.trace("Configuration:<{}={}>", xpath, value);
         }
         return value;
     }
@@ -171,6 +171,7 @@ public abstract class AbstractConfigUtil
     {
         ArrayList<String> strList = new ArrayList<String>();
         strList.addAll(Arrays.asList(getStrValue(xpath).split(sep)));
+        logger.trace("Configuration:<{}={}>", xpath, strList);
         return strList;
     }
 
@@ -189,6 +190,7 @@ public abstract class AbstractConfigUtil
         {
             intList.add(Integer.parseInt(aInt.trim()));
         }
+        logger.trace("Configuration:<{}={}>", xpath, intList);
         return intList;
     }
 

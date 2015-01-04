@@ -5,7 +5,7 @@
 
 ######################
 # Initialize classpath
-MODULE_NAME=dpicollector
+MODULE_NAME=nomt-agent
 MODULE_PATH=`dirname $0`
 cd ${MODULE_PATH}
 
@@ -18,15 +18,15 @@ do
 done
 
 # Here modify main_class to fit your runtime environment 
-main_class=com.ericsson.dpi.main.DpiMain
-version_class=com.ericsson.dpi.main.Version
+main_class=org.nomt.agent.main.NmonCronMain
+version_class=org.nomt.agent.main.Version
 
 ######################
 # Main 
 ######################
-mkdir -p ../logs/
-mkdir -p ../logs/tmp/
-mkdir -p ../logs/gz/
+mkdir -p ../log/
+mkdir -p ../nmon/output
+chmod +x ../nmon/nmon
 
 function checkpid() {
     local i
@@ -59,7 +59,7 @@ case "$1" in
 	echo execute $MODULE_NAME ...
 	shift
 	
-	nohup java -server -Dlog.property.file="app.properties" -Dfile.encoding=UTF-8 -Xmx10240m -Xms10240m ${JAVA_ARGS} -cp ${myclasspath}  ${main_class} $*  > ../logs/debug.log 2>&1  <&- &
+	nohup java -server -Dlog.property.file="../config/nomtAgent.properties" -Dfile.encoding=UTF-8 -Xmx1024m -Xms1024m ${JAVA_ARGS} -cp ${myclasspath}  ${main_class} $*  > ../log/debug.log 2>&1  <&- &
 	daemon_pid=$!
 	if ps -p "${daemon_pid}" >/dev/null 2>&1
 	then
@@ -76,7 +76,7 @@ case "$1" in
         	exit 0
 	fi
 	pid_tobe_killed=`cat ${MODULE_NAME}.pid`
-	echo process tobe killed ${pid_tobe_killed}
+	echo process to be killed ${pid_tobe_killed}
 
 	kill -9 ${pid_tobe_killed}
 	

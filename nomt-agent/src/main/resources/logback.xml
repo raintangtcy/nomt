@@ -1,28 +1,22 @@
 <?xml version="1.0"?>
 <configuration>
-	<!-- property file="/home/nomt/config/nomtMaster.properties"/> -->
-	<property file="src/main/resources/nomtAgent.properties" />
-	<!--	<appender name="FILE"-->
-	<!--		class="ch.qos.logback.core.rolling.RollingFileAppender">-->
-	<!--		<Encoding>UTF-8</Encoding>-->
-	<!--		<File>${path.log}/${app.name}.log</File>-->
-	<!--		<Prudent>true</Prudent>-->
-	<!-- <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">-->
-	<!--			<FileNamePattern>${path.log}/${app.name}-%d{yyyy-MM-dd_HH}-%i.log-->
-	<!--			</FileNamePattern>-->
-	<!--			<MaxHistory>5</MaxHistory>-->
-	<!--			<TimeBasedFileNamingAndTriggeringPolicy-->
-	<!--				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">-->
-	<!--				<MaxFileSize>5MB</MaxFileSize>-->
-	<!--			</TimeBasedFileNamingAndTriggeringPolicy>-->
-	<!--		</rollingPolicy>-->
-	<!--		<layout class="ch.qos.logback.classic.PatternLayout">-->
-	<!--			<Pattern>-->
-	<!--				%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - -->
-	<!--				%msg%n-->
-	<!--			</Pattern>-->
-	<!--		</layout>-->
-	<!--	</appender>-->
+	<property file="${log.property.file}"/>
+	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<Encoding>UTF-8</Encoding>
+		<File>${path.log}/${app.name}.log</File>
+		<Prudent>true</Prudent>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>${path.log}/${app.name}-%d{yyyy-MM-dd_HH}-%i.log</FileNamePattern>
+			<MaxHistory>5</MaxHistory>
+			<TimeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<MaxFileSize>5MB</MaxFileSize>
+			</TimeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - 
+					%msg%n</Pattern>
+		</layout>
+	</appender>
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
 		<Encoding>UTF-8</Encoding>
 		<layout class="ch.qos.logback.classic.PatternLayout">
@@ -33,7 +27,10 @@
 		<level value="${log.level.std}" />
 		<appender-ref ref="STDOUT" />
 	</logger>
-	<!-- <logger name="org.nomt"> <level value="${log.level.file}" /> <appender-ref ref="FILE"
-		/> </logger> -->
+	<logger name="org.nomt">
+		<level value="${log.level.file}" />
+		<appender-ref ref="FILE"
+		/>
+	</logger>
 </configuration> 
 

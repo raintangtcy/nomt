@@ -21,7 +21,8 @@ public class AgentConfig extends AbstractConfigUtil
         }
         else
         {
-            agentConfigFile = "/home/nomt/config/nomtAgent.properties";
+            agentConfigFile = ClassLoader.getSystemResource(
+                    "nomtAgent.properties").getPath();
         }
 
         return agentConfigFile;
@@ -80,6 +81,21 @@ public class AgentConfig extends AbstractConfigUtil
     public int getMinaServerPort()
     {
         return getIntValue("mina.server.port");
+    }
+
+    public int getHeartbeatServerPort()
+    {
+        return getIntValue("mina.heartbeat.server.port");
+    }
+
+    public String getNmonBinaryDir()
+    {
+        return getStrValue("path.nmon.binary");
+    }
+
+    public String getNmonOutputDir()
+    {
+        return getStrValue("path.nmon.output");
     }
 
 }

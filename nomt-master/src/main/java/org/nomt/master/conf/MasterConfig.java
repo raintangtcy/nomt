@@ -97,4 +97,24 @@ public class MasterConfig extends AbstractConfigUtil
         return getIntValue("mina.thread.pool.size");
     }
 
+    public int getHeartbeatServerPort()
+    {
+        return getIntValue("mina.heartbeat.server.port");
+    }
+
+    public int getIntervalHeartbeat()
+    {
+        return getIntValue("interval.heartbeat");
+    }
+
+    public int intervalInfoCollect()
+    {
+        return getIntValue("interval.info.collect");
+    }
+
+    public int getIntervalPerfCollect()
+    {
+        return getIntValue("interval.perf.collect");
+    }
+
 }

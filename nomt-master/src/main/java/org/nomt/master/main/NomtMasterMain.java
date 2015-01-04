@@ -21,14 +21,23 @@
 
 /**
  * NomtMasterMain.java
- * 
+ *
  * @author Rain Tang
  *         Dec 18, 2014 3:29:43 PM
  * @description
  */
 package org.nomt.master.main;
 
-import org.nomt.master.tcp.NetworkServer;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import org.nomt.base.thread.ThreadUtil;
+import org.nomt.master.conf.MasterConfig;
+import org.nomt.master.udp.HeartbeatClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Rain Tang
@@ -36,11 +45,30 @@ import org.nomt.master.tcp.NetworkServer;
  */
 public class NomtMasterMain
 {
+    private static Logger logger = LoggerFactory
+            .getLogger(NomtMasterMain.class);
 
     public static void main(String[] args)
     {
-        NetworkServer server = NetworkServer.getInstance();
-        server.start();
+        MasterConfig config = MasterConfig.getInstance();
+        ThreadUtil.scheduleTask(new Timer("timer1"), new TimerTask()
+        {
+
+            @Override
+            public void run()
+            {
+                List<String> aliveNodesIp = new ArrayList<String>();
+                aliveNodesIp.add("127.0.0.1");
+
+                logger.debug(
+                        "Heartbeat job start. Following NE will be checked. {}",
+                        aliveNodesIp);
+
+                HeartbeatClient heartbeatClient = HeartbeatClient
+                        .getInstance(aliveNodesIp);
+                heartbeatClient.start();
+            }
+        }, 0, config.getIntervalHeartbeat() * 1000);
     }
 
 }

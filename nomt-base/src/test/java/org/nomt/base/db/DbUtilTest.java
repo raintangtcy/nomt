@@ -5,8 +5,6 @@ import static org.junit.Assert.assertNotNull;
 
 import java.sql.Connection;
 
-import org.junit.Before;
-import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,13 +16,11 @@ public class DbUtilTest
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @Before
     public void setUp()
     {
         dbUtil = DbUtil.getInstance();
     }
 
-    @Test
     public void testGetConnection()
     {
         Connection connection = null;
@@ -37,7 +33,6 @@ public class DbUtilTest
         }
     }
 
-    @Test
     public void testGetHikariConfig()
     {
         HikariConfig hikariConfig = dbUtil.getHikariConfig();

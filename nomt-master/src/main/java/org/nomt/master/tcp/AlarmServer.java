@@ -49,17 +49,17 @@ import org.slf4j.LoggerFactory;
  * @author Rain Tang
  *
  */
-public class NetworkServer implements NetworkEndIf
+public class AlarmServer implements NetworkEndIf
 {
-    private final Logger logger = LoggerFactory.getLogger(NetworkServer.class);
+    private final Logger logger = LoggerFactory.getLogger(AlarmServer.class);
 
     private SocketAcceptor socketAcceptor;
 
     private MasterConfig config = MasterConfig.getInstance();
 
-    private final static NetworkServer instance = new NetworkServer();
+    private final static AlarmServer instance = new AlarmServer();
 
-    private NetworkServer()
+    private AlarmServer()
     {
     }
 
@@ -160,7 +160,7 @@ public class NetworkServer implements NetworkEndIf
         return false;
     }
 
-    public static NetworkServer getInstance()
+    public static AlarmServer getInstance()
     {
         return instance;
     }
