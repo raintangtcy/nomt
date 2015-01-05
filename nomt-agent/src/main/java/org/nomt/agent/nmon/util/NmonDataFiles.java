@@ -26,7 +26,7 @@
  *         Dec 27, 2014 2:19:06 PM
  * @description
  */
-package org.nomt.agent.nmon;
+package org.nomt.agent.nmon.util;
 
 import java.util.ArrayDeque;
 import java.util.Queue;

@@ -282,4 +282,5 @@ public class NmonFileInfo implements Serializable
     {
         this.bsize = bsize;
     }
+
 }

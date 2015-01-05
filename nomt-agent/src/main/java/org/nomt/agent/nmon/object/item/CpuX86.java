@@ -76,7 +76,7 @@ public class CpuX86 implements Serializable
      * @author Rain Tang
      * @description AAA,x86,Cores,6
      */
-    private String cross;
+    private String cores;
 
     /**
      * @author Rain Tang
@@ -140,14 +140,14 @@ public class CpuX86 implements Serializable
         this.processorChips = processorChips;
     }
 
-    public String getCross()
+    public String getCores()
     {
-        return cross;
+        return cores;
     }
 
-    public void setCross(String cross)
+    public void setCores(String cross)
     {
-        this.cross = cross;
+        this.cores = cross;
     }
 
     public String getHyperthreads()

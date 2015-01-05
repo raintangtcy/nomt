@@ -45,13 +45,13 @@ public class Net implements Serializable
      * @author Rain Tang
      * @description &lt;interface name, in&gt;
      */
-    private HashMap<String, String> networkInMap = new HashMap<String, String>();
+    private HashMap<String, String> networkReadMap = new HashMap<String, String>();
 
     /**
      * @author Rain Tang
      * @description &lt;interface name, out&gt;
      */
-    private HashMap<String, String> networkOutMap = new HashMap<String, String>();
+    private HashMap<String, String> networkWriteMap = new HashMap<String, String>();
 
     /**
      * @author Rain Tang
@@ -60,37 +60,37 @@ public class Net implements Serializable
     private static final long serialVersionUID = 7098592631435373935L;
 
     /**
-     * @return the networkInMap
+     * @return the networkReadMap
      */
-    public HashMap<String, String> getNetworkInMap()
+    public HashMap<String, String> getNetworkReadMap()
     {
-        return networkInMap;
+        return networkReadMap;
     }
 
     /**
-     * @param networkInMap
-     *            the networkInMap to set
+     * @param networkReadMap
+     *            the networkReadMap to set
      */
-    public void setNetworkInMap(HashMap<String, String> networkInMap)
+    public void setNetworkReadMap(HashMap<String, String> networkReadMap)
     {
-        this.networkInMap = networkInMap;
+        this.networkReadMap = networkReadMap;
     }
 
     /**
-     * @return the networkOutMap
+     * @return the networkWriteMap
      */
-    public HashMap<String, String> getNetworkOutMap()
+    public HashMap<String, String> getNetworkWriteMap()
     {
-        return networkOutMap;
+        return networkWriteMap;
     }
 
     /**
-     * @param networkOutMap
-     *            the networkOutMap to set
+     * @param networkWriteMap
+     *            the networkWriteMap to set
      */
-    public void setNetworkOutMap(HashMap<String, String> networkOutMap)
+    public void setNetworkWriteMap(HashMap<String, String> networkWriteMap)
     {
-        this.networkOutMap = networkOutMap;
+        this.networkWriteMap = networkWriteMap;
     }
 
 }

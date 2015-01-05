@@ -2,13 +2,13 @@
  * --------------------------------------------------------------------------
  * COPYRIGHT Ericsson Telecommunicatie B.V., 2014
  * All rights reserved
- * 
+ *
  * The copyright to the computer program(s) herein is the property of
  * Ericsson Telecommunicatie B.V.. The programs may be used and/or
  * copied only with written permission from Ericsson Telecommunicatie
  * B.V. or in accordance with the terms and conditions stipulated in the
  * agreement/contract under which the program(s) have been supplied.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED "AS IS" AND ANY REPRESENTATIONS OR WARRANTIES
  * ABOUT THE SUITABILITY OF THE SOFTWARE, EITHER EXPRESS OR IMPLIED,
  * INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY,
@@ -33,7 +33,22 @@ import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.LineIterator;
-import org.nomt.agent.nmon.NmonDataFiles;
+import org.nomt.agent.nmon.object.NmonFileInfo;
+import org.nomt.agent.nmon.object.item.Aaa;
+import org.nomt.agent.nmon.object.item.CpuAll;
+import org.nomt.agent.nmon.object.item.CpuX86;
+import org.nomt.agent.nmon.object.item.DiskBsize;
+import org.nomt.agent.nmon.object.item.DiskBusy;
+import org.nomt.agent.nmon.object.item.DiskRead;
+import org.nomt.agent.nmon.object.item.DiskWrite;
+import org.nomt.agent.nmon.object.item.DiskXfer;
+import org.nomt.agent.nmon.object.item.JfsInode;
+import org.nomt.agent.nmon.object.item.Mem;
+import org.nomt.agent.nmon.object.item.Net;
+import org.nomt.agent.nmon.object.item.NetPacket;
+import org.nomt.agent.nmon.object.item.Proc;
+import org.nomt.agent.nmon.util.NmonDataFiles;
+import org.nomt.agent.nmon.util.NmonLineParser;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
@@ -64,30 +79,155 @@ public class ParserJob extends QuartzJobBean implements QuartzJobIf
         {
             LineIterator lineIterator = FileUtils.lineIterator(nmonDataFile,
                     "utf-8");
+            Aaa aaa = new Aaa();
+            CpuX86 cpuX86 = new CpuX86();
+            CpuAll cpuAll = new CpuAll();
+            Mem mem = new Mem();
+            Net net = new Net();
+            NetPacket netPacket = new NetPacket();
+            DiskBusy diskBusy = new DiskBusy();
+            DiskBsize diskBsize = new DiskBsize();
+            DiskRead diskRead = new DiskRead();
+            DiskWrite diskWrite = new DiskWrite();
+            DiskXfer diskXfer = new DiskXfer();
+            JfsInode jfsInode = new JfsInode();
+            Proc proc = new Proc();
+
+            String nextLine;
+            String[] lineParts;
+            String part0, part1, part2;
+            String[] netTitleLineParts = null;
+            String[] netPacketTitleLineParts = null;
+            String[] jfsLineParts = null;
+            String[] diskBusyLineParts = null;
+            String[] diskReadLineParts = null;
+            String[] diskWriteLineParts = null;
+            String[] diskBsizeLineParts = null;
+            String[] diskXferLineParts = null;
+
             while (lineIterator.hasNext())
             {
-                String nextLine = lineIterator.next();
-                String[] lineParts = nextLine.split(",");
-                if (lineParts[1].equalsIgnoreCase("T0001"))
+                nextLine = lineIterator.next();
+                lineParts = nextLine.split(",");
+                part0 = lineParts[0];
+                part1 = lineParts[1];
+                part2 = lineParts[2];
+                if ("AAA".equalsIgnoreCase(part0))
                 {
-                    // CPU_ALL,T0001,1.9,3.8,0.0,94.3,,1
-                    if (lineParts[0].equalsIgnoreCase("ZZZZ"))
+                    if (lineParts.length == 3)
                     {
-                        // ZZZZ,T0001,21:20:01,26-DEC-2014
+                        NmonLineParser.parseAaa(aaa, lineParts);
+                    }
+                    else if (lineParts.length == 4)
+                    {
+                        NmonLineParser.parseCpuX86(cpuX86, lineParts);
+                    }
+                }
+                else if ("T0001".equalsIgnoreCase(part1))
+                {
+                    if ("CPU_ALL".equalsIgnoreCase(part0))
+                    {
+                        NmonLineParser.parseCpuAll(cpuAll, lineParts);
+                    }
+                    else if ("MEM".equalsIgnoreCase(part0))
+                    {
+                        NmonLineParser.parseMem(mem, lineParts);
+                    }
+                    else if ("NET".equalsIgnoreCase(part0))
+                    {
+                        NmonLineParser.parseNet(net, netTitleLineParts,
+                                lineParts);
+                    }
+                    else if ("NETPACKET".equalsIgnoreCase(part0))
+                    {
+                        NmonLineParser.parseNetPacket(netPacket,
+                                netPacketTitleLineParts, lineParts);
+                    }
+                    else if ("JFSFILE".equalsIgnoreCase(part0))
+                    {
+                        NmonLineParser.parseJfsInode(jfsInode, jfsLineParts,
+                                lineParts);
+                    }
+                    else if ("DISKBUSY".equalsIgnoreCase(part0))
+                    {
+                        NmonLineParser.parseDiskBusy(diskBusy,
+                                diskBusyLineParts, lineParts);
+                    }
+                    else if ("DISKREAD".equalsIgnoreCase(part0))
+                    {
+                        NmonLineParser.parseDiskRead(diskRead,
+                                diskReadLineParts, lineParts);
+                    }
+                    else if ("DISKWRITE".equalsIgnoreCase(part0))
+                    {
+                        NmonLineParser.parseDiskWrite(diskWrite,
+                                diskWriteLineParts, lineParts);
+                    }
+                    else if ("DISKXFER".equalsIgnoreCase(part0))
+                    {
+                        NmonLineParser.parseDiskXfer(diskXfer,
+                                diskXferLineParts, lineParts);
+                    }
+                    else if ("DISKBSIZE".equalsIgnoreCase(part0))
+                    {
+                        NmonLineParser.parseDiskBsize(diskBsize,
+                                diskBsizeLineParts, lineParts);
+                    }
+                    else if ("PROC".equalsIgnoreCase(part0))
+                    {
+                        NmonLineParser.parseProc(proc, lineParts);
+                    }
+                }
+                else if ("NET".equalsIgnoreCase(part0))
+                {
+                    netTitleLineParts = lineParts;
+                }
+                else if ("NETPACKET".equalsIgnoreCase(part0))
+                {
+                    netPacketTitleLineParts = lineParts;
+                }
+                else if ("JFSFILE".equalsIgnoreCase(part0))
+                {
+                    jfsLineParts = lineParts;
+                }
+                else if ("DISKBUSY".equalsIgnoreCase(part0))
+                {
+                    diskBusyLineParts = lineParts;
+                }
+                else if ("DISKREAD".equalsIgnoreCase(part0))
+                {
+                    diskReadLineParts = lineParts;
+                }
+                else if ("DISKWRITE".equalsIgnoreCase(part0))
+                {
+                    diskWriteLineParts = lineParts;
+                }
+                else if ("DISKXFER".equalsIgnoreCase(part0))
+                {
+                    diskXferLineParts = lineParts;
+                }
+                else if ("DISKBSIZE".equalsIgnoreCase(part0))
+                {
+                    diskBsizeLineParts = lineParts;
+                }
 
-                    }
-                }
-                if (lineParts[2].equalsIgnoreCase("uptime"))
-                {
-                    if (lineParts.length > 3)
-                    {
-                        // BBBP,284,uptime," 21:20:00 up  2:08,  2 users,  load average: 0.00, 0.00, 0.00"
-                        String[] load_1_2_3 = lineParts[3].substring(1,
-                                lineParts[3].length() - 2).split(",")[2]
-                                .split(":")[1].split(",");
-                    }
-                }
             }
+
+            NmonFileInfo nmonFileInfo = new NmonFileInfo();
+            nmonFileInfo.setAaa(aaa);
+            nmonFileInfo.setX86(cpuX86);
+            nmonFileInfo.setCpuAll(cpuAll);
+            nmonFileInfo.setNet(net);
+            nmonFileInfo.setNetPacket(netPacket);
+            nmonFileInfo.setMem(mem);
+            nmonFileInfo.setJfsInode(jfsInode);
+            nmonFileInfo.setDiskBusy(diskBusy);
+            nmonFileInfo.setDiskRead(diskRead);
+            nmonFileInfo.setDiskWrite(diskWrite);
+            nmonFileInfo.setDiskXfer(diskXfer);
+            nmonFileInfo.setBsize(diskBsize);
+            logger.debug("Parse Nmon File successfully.");
+
         }
         catch (IOException e)
         {

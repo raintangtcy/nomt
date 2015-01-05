@@ -57,6 +57,14 @@ public class Proc implements Serializable
 
     private String write;
 
+    private String fork;
+
+    private String exec;
+
+    private String sem;
+
+    private String msg;
+
     /**
      * @return the runnable
      */
@@ -157,5 +165,73 @@ public class Proc implements Serializable
     public void setWrite(String write)
     {
         this.write = write;
+    }
+
+    /**
+     * @return the fork
+     */
+    public String getFork()
+    {
+        return fork;
+    }
+
+    /**
+     * @param fork
+     *            the fork to set
+     */
+    public void setFork(String fork)
+    {
+        this.fork = fork;
+    }
+
+    /**
+     * @return the exec
+     */
+    public String getExec()
+    {
+        return exec;
+    }
+
+    /**
+     * @param exec
+     *            the exec to set
+     */
+    public void setExec(String exec)
+    {
+        this.exec = exec;
+    }
+
+    /**
+     * @return the sem
+     */
+    public String getSem()
+    {
+        return sem;
+    }
+
+    /**
+     * @param sem
+     *            the sem to set
+     */
+    public void setSem(String sem)
+    {
+        this.sem = sem;
+    }
+
+    /**
+     * @return the msg
+     */
+    public String getMsg()
+    {
+        return msg;
+    }
+
+    /**
+     * @param msg
+     *            the msg to set
+     */
+    public void setMsg(String msg)
+    {
+        this.msg = msg;
     }
 }

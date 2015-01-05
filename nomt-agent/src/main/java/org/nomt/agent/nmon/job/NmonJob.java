@@ -32,7 +32,7 @@ import java.text.SimpleDateFormat;
 
 import org.apache.commons.lang.SystemUtils;
 import org.nomt.agent.conf.AgentConfig;
-import org.nomt.agent.nmon.NmonDataFiles;
+import org.nomt.agent.nmon.util.NmonDataFiles;
 import org.nomt.base.shell.ShellUtil;
 import org.nomt.base.thread.ThreadUtil;
 import org.quartz.JobExecutionContext;
