@@ -20,47 +20,32 @@
  */
 
 /**
- * NomtMasterMain.java
+ * NmonJsonParser.java
  *
  * @author Rain Tang
- *         Dec 18, 2014 3:29:43 PM
+ *         Jan 5, 2015 11:48:31 AM
  * @description
  */
-package org.nomt.agent.main;
+package org.nomt.agent.nmon.util;
 
-import org.nomt.base.thread.ThreadUtil;
+import org.nomt.agent.nmon.object.NmonFileInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import com.alibaba.fastjson.JSON;
 
 /**
  * @author Rain Tang
- *
+ * @description
  */
-public class NomtAgentMain
+public class NmonJsonParser
 {
-    private static Logger logger = LoggerFactory.getLogger(NomtAgentMain.class);
+    public static Logger logger = LoggerFactory.getLogger(NmonJsonParser.class);
 
-    public static void main(String[] args)
+    public static String parseNmonFileInfo2Json(NmonFileInfo info)
     {
-        ThreadUtil.startNewTask(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                logger.debug("NomtAgentMain start.");
-
-                final String SPRING_CONTEXT_XML = "agent-spring-all.xml";
-
-                logger.debug("Spring context XML file is {}.",
-                        SPRING_CONTEXT_XML);
-
-                // schedulerFactoryBean 由spring创建注入
-                ApplicationContext ctx = new ClassPathXmlApplicationContext(
-                        SPRING_CONTEXT_XML);
-            }
-        });
+        String jsonStr = JSON.toJSONString(info);
+        logger.trace("Json String: {}", jsonStr);
+        return jsonStr;
     }
-
 }

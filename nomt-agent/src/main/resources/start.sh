@@ -18,7 +18,7 @@ do
 done
 
 # Here modify main_class to fit your runtime environment 
-main_class=org.nomt.agent.main.NmonCronMain
+main_class=org.nomt.agent.main.NomtAgentMain
 version_class=org.nomt.agent.main.Version
 
 ######################

@@ -1,4 +1,4 @@
-package org.nomt.master.mina.filter;
+package org.nomt.agent.mina.filter;
 
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.ProtocolCodecFactory;

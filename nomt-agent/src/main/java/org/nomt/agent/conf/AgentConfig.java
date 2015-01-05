@@ -98,4 +98,24 @@ public class AgentConfig extends AbstractConfigUtil
         return getStrValue("path.nmon.output");
     }
 
+    /**
+     * @description
+     * @return
+     * @author Rain Tang
+     */
+    public int getMinaThreadPoolSize()
+    {
+        return getIntValue("mina.thread.pool.size");
+    }
+
+    /**
+     * @description
+     * @return
+     * @author Rain Tang
+     */
+    public long getRestartInterval()
+    {
+        return getLongValue("mina.restart.interval");
+    }
+
 }

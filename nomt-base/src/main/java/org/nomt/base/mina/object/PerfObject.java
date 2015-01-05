@@ -20,47 +20,20 @@
  */
 
 /**
- * NomtMasterMain.java
- *
+ * PerfObject.java
  * @author Rain Tang
- *         Dec 18, 2014 3:29:43 PM
- * @description
+ * Jan 5, 2015 11:45:06 AM
+ * @description 
  */
-package org.nomt.agent.main;
+package org.nomt.base.mina.object;
 
-import org.nomt.base.thread.ThreadUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import java.io.Serializable;
 
 /**
  * @author Rain Tang
- *
+ * @description 
  */
-public class NomtAgentMain
+public class PerfObject implements Serializable
 {
-    private static Logger logger = LoggerFactory.getLogger(NomtAgentMain.class);
-
-    public static void main(String[] args)
-    {
-        ThreadUtil.startNewTask(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                logger.debug("NomtAgentMain start.");
-
-                final String SPRING_CONTEXT_XML = "agent-spring-all.xml";
-
-                logger.debug("Spring context XML file is {}.",
-                        SPRING_CONTEXT_XML);
-
-                // schedulerFactoryBean 由spring创建注入
-                ApplicationContext ctx = new ClassPathXmlApplicationContext(
-                        SPRING_CONTEXT_XML);
-            }
-        });
-    }
 
 }

@@ -26,7 +26,7 @@
  *         Dec 16, 2014 8:13:00 PM
  * @description
  */
-package org.nomt.master.tcp;
+package org.nomt.agent.mina;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -38,10 +38,10 @@ import org.apache.mina.filter.executor.UnorderedThreadPoolExecutor;
 import org.apache.mina.transport.socket.SocketAcceptor;
 import org.apache.mina.transport.socket.SocketSessionConfig;
 import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
+import org.nomt.agent.conf.AgentConfig;
+import org.nomt.agent.mina.filter.NomtCodecFactory;
+import org.nomt.agent.mina.handler.TimeHandler;
 import org.nomt.base.network.NetworkEndIf;
-import org.nomt.master.conf.MasterConfig;
-import org.nomt.master.mina.filter.NomtCodecFactory;
-import org.nomt.master.mina.handler.TimeHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,17 +49,17 @@ import org.slf4j.LoggerFactory;
  * @author Rain Tang
  *
  */
-public class AlarmServer implements NetworkEndIf
+public class NomtAgentServer implements NetworkEndIf
 {
-    private final Logger logger = LoggerFactory.getLogger(AlarmServer.class);
+    private final Logger logger = LoggerFactory.getLogger(NomtAgentServer.class);
 
     private SocketAcceptor socketAcceptor;
 
-    private MasterConfig config = MasterConfig.getInstance();
+    private AgentConfig config = AgentConfig.getInstance();
 
-    private final static AlarmServer instance = new AlarmServer();
+    private final static NomtAgentServer instance = new NomtAgentServer();
 
-    private AlarmServer()
+    private NomtAgentServer()
     {
     }
 
@@ -160,7 +160,7 @@ public class AlarmServer implements NetworkEndIf
         return false;
     }
 
-    public static AlarmServer getInstance()
+    public static NomtAgentServer getInstance()
     {
         return instance;
     }

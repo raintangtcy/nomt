@@ -20,47 +20,52 @@
  */
 
 /**
- * NomtMasterMain.java
+ * NmonFileInfoRepo.java
  *
  * @author Rain Tang
- *         Dec 18, 2014 3:29:43 PM
+ *         Jan 5, 2015 9:19:57 AM
  * @description
  */
-package org.nomt.agent.main;
+package org.nomt.agent.nmon.util;
 
-import org.nomt.base.thread.ThreadUtil;
+import java.io.Serializable;
+
+import org.nomt.agent.nmon.object.NmonFileInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * @author Rain Tang
- *
+ * @description
  */
-public class NomtAgentMain
+public class NmonFileInfoRepo implements Serializable
 {
-    private static Logger logger = LoggerFactory.getLogger(NomtAgentMain.class);
+    /**
+     * @author Rain Tang
+     * @description
+     */
+    private static final long serialVersionUID = 312108819732574171L;
 
-    public static void main(String[] args)
+    private static NmonFileInfo content = null;
+
+    private static Logger logger = LoggerFactory
+            .getLogger(NmonFileInfoRepo.class);
+
+    /**
+     * @return the content
+     */
+    public static NmonFileInfo getContent()
     {
-        ThreadUtil.startNewTask(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                logger.debug("NomtAgentMain start.");
-
-                final String SPRING_CONTEXT_XML = "agent-spring-all.xml";
-
-                logger.debug("Spring context XML file is {}.",
-                        SPRING_CONTEXT_XML);
-
-                // schedulerFactoryBean 由spring创建注入
-                ApplicationContext ctx = new ClassPathXmlApplicationContext(
-                        SPRING_CONTEXT_XML);
-            }
-        });
+        return content;
     }
 
+    /**
+     * @param content
+     *            the content to set
+     */
+    public static void setContent(NmonFileInfo content)
+    {
+        NmonFileInfoRepo.content = content;
+        logger.trace("Set NmonFileInfoRepo in memory. " + content);
+    }
 }
